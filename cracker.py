@@ -5,14 +5,18 @@ import time
 import argparse
 
 # begin program
-pwd = "andrew"
 iterations = 0
 start = time.time()
 parser = argparse.ArgumentParser()
+parser.add_argument("pwd", type=str,
+                    help='the password to test')
 
-for guess in itertools.product(string.ascii_lowercase, repeat=6):
+args = parser.parse_args()
+password = args.pwd
+
+for guess in itertools.product(string.ascii_lowercase, repeat=len(password)):
     iterations += 1
-    if(''.join(guess) == pwd):
+    if(''.join(guess) == password):
         finish = time.time()
         time_taken = finish - start
         print("found password: " + str(''.join(guess)))
