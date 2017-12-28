@@ -5,10 +5,9 @@ import time
 import argparse
 
 # todo
-# display average guesses per second when attacking large passwords
-# choose whether to perform a brute force or simulate it (default=simulate)
+# gather average guesses per second benchmark information before cracking passwords
 # output stats to csv file
-# prettify output
+# prettify output - time taken, guesses taken
 
 # begin program
 iterations = 0
@@ -31,4 +30,4 @@ for guess in itertools.product(string.ascii_lowercase, repeat=len(password)):
         print("found password in {:.2f} seconds ({} guesses) - avg guesses per second: {:.0f}".format(time_taken, iterations, average_guesses))
 
         # end program
-        exit()
+        break
