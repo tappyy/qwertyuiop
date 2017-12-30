@@ -10,6 +10,9 @@ import itertools
 import argparse
 import random
 import re
+import logging
+
+logging.basicConfig(level=logging.INFO, format='%(message)s')
 
 CONFIG_FILE = 'config.ini'
 RANDOM_PASSWORD_LENGTH = 10
@@ -33,7 +36,7 @@ def main():
             timed_brute_force()
 
     guess_rate = int(get_guess_rate())
-    print('guess rate is {} guesses per second'.format(guess_rate))
+    logging.info('Guess rate per second: {}'.format(guess_rate))
 
     # init lists for csv output
     if(args.output):
@@ -44,6 +47,7 @@ def main():
 
     # run through passwords file
     with open(args.pwdfile) as pf:
+        logging.info('Analysing {}'.format(args.pwdfile))
         password = pf.readline().strip()
         while password:
             sample_space = get_search_space(password)
@@ -58,6 +62,7 @@ def main():
                 search_spaces.append('{}^{}'.format(sample_space, len(password)))
 
             password = pf.readline().strip()
+    logging.info('Finished analysis.')
 
     # create dataframe and output csv
     if(args.output):
@@ -67,9 +72,11 @@ def main():
                     'Search Space':search_spaces}
         df = pd.DataFrame(df_data)
         df.to_csv(args.output, index = False)
+        logging.info('Output saved to: {}'.format(args.output))
 
 def get_guess_rate():
     if not(os.path.isfile(CONFIG_FILE)):
+        logging.warning('Config file not found.')
         create_config_file()
 
     config = configparser.ConfigParser()
@@ -111,6 +118,7 @@ def get_search_space(password):
     return search_space
 
 def timed_brute_force():
+    logging.info('Performing brute force benchmark...')
     time_start = time.time()
     guesses = 0
     random_password = create_random_password()
@@ -123,15 +131,15 @@ def timed_brute_force():
             time_taken = time_finish - time_start
             guess_rate = guesses / time_taken
             update_config_file('{:.0f}'.format(guess_rate))
-            print('Guess target of {} reached. Guess rate per second: {:.0f} - Time taken: {:.2f} seconds'.format(benchmark_guesses, guess_rate, time_taken))
             break
+    logging.info('Brute force benchmark complete. Time taken: {:.2f}s'.format(time_taken))
 
 def create_random_password():
     random_password = ''.join([random.choice(string.ascii_letters + string.digits + string.punctuation) for n in range(RANDOM_PASSWORD_LENGTH)])
     return random_password
 
 def create_config_file():
-    print('Creating .ini file')
+    logging.info('Creating config file: {}'.format(CONFIG_FILE))
     config = configparser.ConfigParser()
     config.add_section('benchmark_settings')
     config.set('benchmark_settings', 'guess_rate', str(0)) # default value
@@ -140,11 +148,12 @@ def create_config_file():
     with open(CONFIG_FILE, "w") as f:
         config.write(f)
 
-    print('.ini file created')
+    logging.debug('Created file: {}'.format(CONFIG_FILE))
 
     timed_brute_force()
 
 def update_config_file(guess_rate):
+    logging.debug('Updating guess rate...')
     config = configparser.ConfigParser()
     config.read(CONFIG_FILE)
 
@@ -152,6 +161,8 @@ def update_config_file(guess_rate):
 
     with open(CONFIG_FILE, "w") as f:
         config.write(f)
+
+    logging.debug('Guess rate updated.')
 
 if __name__ == '__main__':
     main()
