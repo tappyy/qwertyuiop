@@ -57,7 +57,7 @@ def main():
             passwords.append(password.strip())
             crack_hours.append('{:.2f}'.format(crack_time_hours))
             crack_days.append('{:.2f}'.format(crack_time_days))
-            search_spaces.append('{}^{}'.format(sample_space, len(password)))
+            permutations.append('{}^{}'.format(sample_space, len(password)))
 
             password = pf.readline().strip()
     logging.info('Finished analysis.')
