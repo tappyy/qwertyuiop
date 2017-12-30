@@ -23,7 +23,7 @@ def main():
                         help="File containing passwords to test")
     parser.add_argument("-b", "--benchmark",
                         help="Perform a benchmark to get guess rate", action="store_true")
-    parser.add_argument("-o", "--output",
+    parser.add_argument("-o", "--output", required= True,
                         help="Filename to output to csv")
 
     args = parser.parse_args()
@@ -39,11 +39,10 @@ def main():
     logging.info('Guess rate per second: {}'.format(guess_rate))
 
     # init lists for csv output
-    if(args.output):
-        passwords = []
-        crack_hours = []
-        crack_days = []
-        search_spaces = []
+    passwords = []
+    crack_hours = []
+    crack_days = []
+    permutations = []
 
     # run through passwords file
     with open(args.pwdfile) as pf:
@@ -55,24 +54,22 @@ def main():
             crack_time_hours = (total_search_space / guess_rate) / 60 / 60
             crack_time_days = crack_time_hours / 24
 
-            if(args.output):
-                passwords.append(password.strip())
-                crack_hours.append('{:.2f}'.format(crack_time_hours))
-                crack_days.append('{:.2f}'.format(crack_time_days))
-                search_spaces.append('{}^{}'.format(sample_space, len(password)))
+            passwords.append(password.strip())
+            crack_hours.append('{:.2f}'.format(crack_time_hours))
+            crack_days.append('{:.2f}'.format(crack_time_days))
+            search_spaces.append('{}^{}'.format(sample_space, len(password)))
 
             password = pf.readline().strip()
     logging.info('Finished analysis.')
 
     # create dataframe and output csv
-    if(args.output):
-        df_data = {'Password':passwords,
-                    'Crack Time H': crack_hours,
-                    'Crack Time D':crack_days,
-                    'Search Space':search_spaces}
-        df = pd.DataFrame(df_data)
-        df.to_csv(args.output, index = False)
-        logging.info('Output saved to: {}'.format(args.output))
+    df_data = {'Password':passwords,
+                'Crack Time H': crack_hours,
+                'Crack Time D':crack_days,
+                'Permutations':permutations}
+    df = pd.DataFrame(df_data)
+    df.to_csv(args.output, index = False)
+    logging.info('Output saved to: {}'.format(args.output))
 
 def get_guess_rate():
     if not(os.path.isfile(CONFIG_FILE)):
