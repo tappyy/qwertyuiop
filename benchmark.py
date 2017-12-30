@@ -1,23 +1,17 @@
 import time
 import configparser
 import os
-import platform
-import multiprocessing
 import string
 import itertools
 import argparse
 import random
-import wmi
 
 # todo
-# check if computer is windows or linux
-# get MAX_GUESS_LIMIT from config file [x]
 # format outputs
+# add progress feedback
 
 CONFIG_FILE = 'config.ini'
 RANDOM_PASSWORD_LENGTH = 10
-computer = wmi.WMI()
-cpu_info = computer.Win32_Processor()[0]
 
 def get_guess_rate():
     if not(os.path.isfile(CONFIG_FILE)):
@@ -37,12 +31,9 @@ def get_benchmark_guesses():
     return guess_limit
 
 def timed_brute_force():
-    # add progress bar
     time_start = time.time()
     guesses = 0
     random_password = create_random_password()
-    print('CPU: {}'.format(str(cpu_info.Name)))
-    print('Logical Cores: {}'.format(os.cpu_count()))
     benchmark_guesses = int(get_benchmark_guesses())
 
     for guess in itertools.product(string.ascii_letters + string.punctuation, repeat=RANDOM_PASSWORD_LENGTH):
@@ -60,13 +51,9 @@ def create_random_password():
     return random_password
 
 def create_config_file():
-    computer = wmi.WMI()
-    cpu_info = computer.Win32_Processor()[0]
     print('Creating .ini file')
     config = configparser.ConfigParser()
-    config.add_section('cpu_settings')
-    config.set('cpu_settings', 'cpu_model', str(cpu_info.Name))
-    config.set('cpu_settings', 'cpu_logical', str(os.cpu_count()))
+    config.add_section('benchmark_settings')
     config.set('cpu_settings', 'guess_rate', str(0)) # default value
 
     config.add_section('general_settings')
