@@ -41,13 +41,14 @@ Once all passwords in the file have been analysed, a .csv file is created contai
 - Permutations in short form *Eg. 69^6*
 
 ## Requirements
-[Pandas](https://pandas.pydata.org/) - Used to create a dataframe of results and output to .csv
+[Seaborn](http://seaborn.pydata.org/index.html) - Used for data visualisation
 
-Install Pandas with the following commands:
+Install Seaborn and its dependencies with the following command:
 
 ``` 
-pip install pandas
+pip install seaborn
 ```
+
 
 ## Usage
 Recommended usage is as follows:
