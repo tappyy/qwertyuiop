@@ -64,7 +64,8 @@ python qwertyuiop.py -i file.txt -o results.csv
 
 **Note:** For the best results, perform a benchmark with as few processes running as possible.
 
-
+#### Examples
+![alphanumerics-symbols](seaborn-graphs/alphanumerics-symbols.png)
 
 ## Thanks
 Thanks to [ScottSmudger](https://github.com/ScottSmudger) for the regex help!
