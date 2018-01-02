@@ -23,7 +23,7 @@ def main():
                         help="File containing passwords to test")
     parser.add_argument("-b", "--benchmark",
                         help="Perform a benchmark to get guess rate", action="store_true")
-    parser.add_argument("-o", "--output", required= True, default="password.txt",
+    parser.add_argument("-o", "--output", required= True, default="output.csv",
                         help="Filename to output to csv")
 
     args = parser.parse_args()
