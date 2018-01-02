@@ -66,7 +66,7 @@ python qwertyuiop.py -i file.txt -o results.csv
 **Note:** For the best results, perform a benchmark with as few processes running as possible.
 
 ## Examples
-![alphanumerics-symbols](seaborn-graphs/alphanumerics-symbols.png)
+![alphanumerics-symbols](seaborn/alphanumerics-symbols.png)
 
 
 ## Thanks
