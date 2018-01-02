@@ -1,6 +1,8 @@
 # qwertyuiop
 #### An adventure into password cracking on the CPU with Python
 
+[[https://github.com/tappyy/qwertyuiop/blob/master/seaborn-graphs/alphanumerics-symbols.png|alt=alphanumerics-symbols]]
+
 ## Overview
 Find the approximate crack time of a password by performing a brute force attack and outputting the results to a .csv file for visualisation.
 
