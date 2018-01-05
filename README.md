@@ -1,6 +1,10 @@
 # qwertyuiop
 #### An adventure into password cracking on the CPU with Python
 
+### To-do
+- Multi-threading to speed up benchmark test
+- Add option to perform benchmark on GPU
+
 ## Overview
 Find the approximate crack time of a password by performing a brute force attack and outputting the results to a .csv file for visualisation.
 
