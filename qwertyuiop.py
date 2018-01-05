@@ -11,6 +11,7 @@ import argparse
 import random
 import re
 import logging
+import multiprocessing as mp
 
 logging.basicConfig(level=logging.INFO, format='%(message)s')
 
@@ -130,6 +131,9 @@ def timed_brute_force():
             update_config_file('{:.0f}'.format(guess_rate))
             break
     logging.info('Brute force benchmark complete. Time taken: {:.2f}s'.format(time_taken))
+
+def parallel_brute_force():
+
 
 def create_random_password():
     random_password = ''.join([random.choice(string.ascii_letters + string.digits + string.punctuation) for n in range(RANDOM_PASSWORD_LENGTH)])
