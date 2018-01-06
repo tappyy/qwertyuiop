@@ -3,7 +3,7 @@
 
 ### To-do
 - ~~Multi-processing to speed up benchmark test~~
-- Add option to input thread number (processes)
+- ~~Add option to input thread number (processes)~~
 - Create visualisation of single thread vs multi-thread
 
 ## Overview
@@ -60,11 +60,11 @@ Recommended usage is as follows:
 ```
 python qwertyuiop.py -i file.txt -o results.csv 
 ```
-`-i` - .txt file containing a list of passwords to analyse. **(required)**
+`-i` - .txt file containing a list of passwords to analyse - **required**
 
 `-o` - .csv file to output the results to.
 
-`-b` - Perform a new benchmark test to determine an accurate guess rate. - *(optional)* 
+`-b` - Perform a new benchmark test using this number of threads. *(default = 4)* - *optional* 
 
 `-h` - For when you get stuck :)
 
