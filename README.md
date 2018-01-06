@@ -2,7 +2,7 @@
 #### An adventure into password cracking on the CPU with Python
 
 ### To-do
-- ~~Multi-threading to speed up benchmark test~~
+- ~~Multi-processing to speed up benchmark test~~
 - Add option to input thread number (processes)
 
 ## Overview
