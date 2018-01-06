@@ -176,7 +176,7 @@ def create_config_file():
 
     logging.debug('Created file: {}'.format(CONFIG_FILE))
 
-    timed_brute_force()
+    parallel_brute_force(4)
 
 def update_config_file(guess_rate):
     logging.debug('Updating guess rate...')
