@@ -23,7 +23,7 @@ def main():
     parser.add_argument("-i", dest="pwdfile", required=True, default="password.txt",
                         help="File containing passwords to test")
     parser.add_argument("-b", "--benchmark",
-                        help="Perform a benchmark to get guess rate", action="store_true")
+                        help="Perform benchmark and use number of threads")
     parser.add_argument("-o", "--output", required= True, default="output.csv",
                         help="Filename to output to csv")
 
@@ -34,7 +34,7 @@ def main():
         create_config_file()
     else:
         if(args.benchmark):
-            parallel_brute_force()
+            parallel_brute_force(int(args.benchmark))
 
     guess_rate = int(get_guess_rate())
     logging.info('Guess rate per second: {}'.format(guess_rate))
@@ -119,11 +119,12 @@ def brute_force(guess_limit, alpha_chunk, random_password):
     guesses = 0
     for guess in itertools.product(alpha_chunk, repeat=len(random_password)):
         guesses += 1
-        # if(''.join(guess) == random_password):
-        #     logging.info('Found password: {}'.format(''.join(guess)))
-        if(guesses == guess_limit): break # comment out for full brute force
+        if(''.join(guess) == random_password):
+            logging.info('Found password: {}'.format(''.join(guess)))
+            break
+        if(guesses == guess_limit): break
 
-def parallel_brute_force():
+def parallel_brute_force(thread_count):
     # split alphabet into 4
     # assign 4 threads to cycle a portion of the alphabet search
     # return guess rate for each thread
@@ -131,15 +132,15 @@ def parallel_brute_force():
     random_password = create_random_password()
     alphabet = string.ascii_letters + string.digits + string.punctuation
     benchmark_guesses = int(get_benchmark_guesses())
-    threads = 4
-    chunk_size = len(alphabet) // threads # divide alphabet into 4
-    pool = mp.Pool(processes=threads) # create 4 processes
+    thread_guess_limit = benchmark_guesses / thread_count
+    chunk_size = len(alphabet) // thread_count # divide alphabet into 4
+    pool = mp.Pool(processes=thread_count) # create 4 processes
 
     logging.info('Performing brute force benchmark...')
     time_start = time.time()
 
-    for i in range(threads):
-        if i == threads - 1:
+    for i in range(thread_count):
+        if i == thread_count - 1:
             # if on last thread, chunk is from here to the end of alphabet
             chunk = alphabet[chunk_size * i :]
         else:
@@ -147,7 +148,7 @@ def parallel_brute_force():
             # eg.
             chunk = alphabet[chunk_size * i : chunk_size * (i+1)]
 
-        pool.apply_async(brute_force, args=(benchmark_guesses//threads, chunk, random_password))
+        pool.apply_async(brute_force, args=(thread_guess_limit, chunk, random_password))
 
     pool.close()
     pool.join() # wait for all threads to finish
