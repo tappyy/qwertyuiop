@@ -4,6 +4,7 @@
 ### To-do
 - ~~Multi-processing to speed up benchmark test~~
 - Add option to input thread number (processes)
+- Create visualisation of single thread vs multi-thread
 
 ## Overview
 Find the approximate crack time of a password by performing a brute force attack and outputting the results to a .csv file for visualisation.
