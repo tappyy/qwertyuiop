@@ -64,7 +64,7 @@ python qwertyuiop.py -i file.txt -o results.csv
 
 `-o` - .csv file to output the results to.
 
-`-b` - Perform a new benchmark test using this number of threads. - *(optional)* 
+`-b` - Perform a new benchmark test using this number of threads. *default = 4* - *(optional)* 
 
 `-h` - For when you get stuck :)
 
